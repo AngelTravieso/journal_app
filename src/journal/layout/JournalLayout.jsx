@@ -1,23 +1,26 @@
-import { Box, Toolbar } from "@mui/material";
-import { NavBar, SideBar } from "../components";
+import { Toolbar } from '@mui/material';
+import { Box } from '@mui/system'
+import { NavBar, SideBar } from '../components';
 
-const drawerWidth = 240;
+
+const drawerWidth = 280;
 
 export const JournalLayout = ({ children }) => {
   return (
-    <Box sx={{ display: 'flex '}}>
-        {/* Navbar */}
-        <NavBar drawerWidth={ drawerWidth } />
+    <Box sx={{ display: 'flex' }}>
 
-        {/* Sidebar */}
+        <NavBar drawerWidth={ drawerWidth } />  
+
         <SideBar drawerWidth={ drawerWidth } />
 
-        <Box
+        <Box 
             component='main'
-            sx={{ flexGrod: 1, p: 3 }}
+            sx={{ flexGrow: 1, p: 3 }}
         >
             <Toolbar />
+
             { children }
+            
         </Box>
     </Box>
   )
