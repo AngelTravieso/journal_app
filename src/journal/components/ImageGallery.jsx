@@ -13,7 +13,7 @@ function srcset(image, size, rows = 1, cols = 1) {
 export const ImageGallery = () => {
   return (
     <ImageList
-      sx={{ width: '100%', height: 500 }}
+      sx={{ width: '100%', height: 450 }}
       variant="quilted"
       cols={ 4 }
       rowHeight={ 200 }
@@ -21,8 +21,10 @@ export const ImageGallery = () => {
       {itemData.map((item) => (
         <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
           <img {...srcset(item.img, 121, item.rows, item.cols)}
-          alt={item.title}
-          loading="lazy" />
+           src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+           srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+           alt={item.title}
+           loading="lazy" />  
         </ImageListItem>
       ))}
     </ImageList>
