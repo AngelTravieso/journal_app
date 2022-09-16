@@ -60,6 +60,7 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
 
 
     } catch(error) {
+        //* Aqui se leen los codigos de validacion de firebase para mostrar mensajes de error más personalizados
         console.log(error);
         return { ok: false, errorMessage: error.message }
     }
