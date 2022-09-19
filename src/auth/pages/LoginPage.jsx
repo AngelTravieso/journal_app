@@ -119,6 +119,7 @@ export const LoginPage = () => {
               <Grid
                 item
                 xs={ 12 }
+                display={ !!errorMessage ? '' : 'none' }
               >
                 <Alert severity='error'>{ errorMessage }</Alert>
               </Grid>
