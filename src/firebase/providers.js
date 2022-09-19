@@ -62,13 +62,16 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
     } catch(error) {
         //* Aqui se leen los codigos de validacion de firebase para mostrar mensajes de error más personalizados
         console.log(error);
-        return { ok: false, errorMessage: error.message }
+        return { 
+            ok: false,
+            errorMessage: error.message
+        }
     }
 
 }
 
 
-export const signInWithEmailAndPasswordProv = async ({ email, password }) => {
+export const loginWithEmailPassword = async ({ email, password }) => {
 
     try {
 
@@ -79,7 +82,7 @@ export const signInWithEmailAndPasswordProv = async ({ email, password }) => {
             ok: true,
             uid,
             photoURL,
-            email,
+            //email,
             displayName,
         }
 

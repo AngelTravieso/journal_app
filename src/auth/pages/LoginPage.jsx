@@ -3,13 +3,13 @@ import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Alert, Button, Grid, Link, TextField, Typography } from "@mui/material";
-import { DisplaySettings, Google } from "@mui/icons-material";
+import { Google } from "@mui/icons-material";
 
 import { AuthLayout } from '../layout/AuthLayout';
 
 import { useForm } from '../../hooks';
 
-import { checkingAuthentication, startGoogleSignIn, startSignInWithEmailAndPassword } from '../../store/auth';
+import { startGoogleSignIn, startLoginWithEmailPassword } from '../../store/auth';
 import { useState } from 'react';
 
 const formData = {
@@ -44,10 +44,7 @@ export const LoginPage = () => {
     setFormSubmitted(true);
     if(!isFormValid) return;
 
-    // console.log({ email, password });
-    // dispatch( checkingAuthentication( email, password ) );
-
-    dispatch( startSignInWithEmailAndPassword( formState) );
+    dispatch( startLoginWithEmailPassword( formState) );
 
   }
 
@@ -90,8 +87,18 @@ export const LoginPage = () => {
                 helperText={ passwordValid }
                 />
             </Grid>
+            
 
             <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }} >
+
+            <Grid
+                item
+                xs={ 12 }
+                display={ !!errorMessage ? '' : 'none' }
+              >
+                <Alert severity='error'>{ errorMessage }</Alert>
+              </Grid>
+
               <Grid item xs={ 12 } sm={ 6 }>
                 <Button
                   disabled={ isAuthenticating }
@@ -114,16 +121,7 @@ export const LoginPage = () => {
                   <Google />
                   <Typography sx={{ ml: 1 }}>Google</Typography>
                 </Button>
-              </Grid>
-
-              <Grid
-                item
-                xs={ 12 }
-                display={ !!errorMessage ? '' : 'none' }
-              >
-                <Alert severity='error'>{ errorMessage }</Alert>
-              </Grid>
-            
+              </Grid>       
             </Grid>
 
             <Grid container direction='row' justifyContent='end'>
