@@ -95,3 +95,9 @@ export const loginWithEmailPassword = async ({ email, password }) => {
     }
 
 }
+
+
+export const logoutFirebase = async () => {
+    // Cerrar sesion por FB
+    return await FirebaseAuth.signOut();
+}
