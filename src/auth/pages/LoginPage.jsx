@@ -3,24 +3,37 @@ import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button, Grid, Link, TextField, Typography } from "@mui/material";
-import { Google } from "@mui/icons-material";
+import { DisplaySettings, Google } from "@mui/icons-material";
 
 import { AuthLayout } from '../layout/AuthLayout';
 
 import { useForm } from '../../hooks';
 
-import { checkingAuthentication, startGoogleSignIn } from '../../store/auth';
+import { checkingAuthentication, startGoogleSignIn, startSignInWithEmailAndPassword } from '../../store/auth';
+import { useState } from 'react';
+
+const formData = {
+  email: '',
+  password: '',
+}
+
+const formValidation = {
+  email: [ (value) => value.includes('@'), 'El correo debe tener una @.' ],
+  password: [ (value) => value.length >= 6, 'El password debe tener más de 6 letras.' ],
+}
+
 
 export const LoginPage = () => {
 
+  const dispatch = useDispatch();
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  
   const { status } = useSelector( state => state.auth );
 
-  const dispatch = useDispatch();
-
-  const { email, password, onInputChange } = useForm({
-    email: 'angeltraviesoc@gmail.com',
-    password: '123456'
-  });
+  const { 
+    formState, email, password, onInputChange,
+    isFormValid, emailValid, passwordValid,
+  } = useForm( formData, formValidation );
 
   // Memorizar status
   const isAuthenticating = useMemo( () => status === 'checking', [status]);
@@ -28,9 +41,14 @@ export const LoginPage = () => {
 
   const onSubmit = ( event ) => {
     event.preventDefault();
+    setFormSubmitted(true);
+    if(!isFormValid) return;
 
-    console.log({ email, password });
-    dispatch( checkingAuthentication( email, password ) );
+    // console.log({ email, password });
+    // dispatch( checkingAuthentication( email, password ) );
+
+    dispatch( startSignInWithEmailAndPassword( formState) );
+
   }
 
 
@@ -49,9 +67,12 @@ export const LoginPage = () => {
                 type="email"
                 placeholder="correo@google.com"
                 fullWidth
+                autoComplete="off"
                 name="email"
                 value={ email }
                 onChange={ onInputChange }
+                error={ !!emailValid && formSubmitted }
+                helperText={ emailValid }
                 />
             </Grid>
 
@@ -61,9 +82,12 @@ export const LoginPage = () => {
                 type="password"
                 placeholder="Contraseña"
                 fullWidth
+                autoComplete="off"
                 name="password"
                 value={ password }
                 onChange={ onInputChange }
+                error={ !!passwordValid && formSubmitted }
+                helperText={ passwordValid }
                 />
             </Grid>
 
