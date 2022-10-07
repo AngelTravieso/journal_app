@@ -38,7 +38,6 @@ export const LoginPage = () => {
   // Memorizar status
   const isAuthenticating = useMemo( () => status === 'checking', [status]);
 
-
   const onSubmit = ( event ) => {
     event.preventDefault();
     setFormSubmitted(true);
@@ -47,7 +46,6 @@ export const LoginPage = () => {
     dispatch( startLoginWithEmailPassword( formState) );
 
   }
-
 
   const onGoogleSignIn = () => {
     console.log('onGoogleSignIn');
@@ -88,7 +86,6 @@ export const LoginPage = () => {
                 />
             </Grid>
             
-
             <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }} >
 
             <Grid
@@ -131,7 +128,6 @@ export const LoginPage = () => {
             </Grid>
 
           </Grid>
-
           </form>
       </AuthLayout>
   )
