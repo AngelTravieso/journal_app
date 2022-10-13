@@ -1,5 +1,6 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { fileUpload } from "../../helpers/fileUpload";
 import { loadNotes } from "../../helpers/loadNotes";
 import { 
     savingNewNote,
@@ -85,6 +86,20 @@ export const startSaveNote = () => {
         await setDoc(docRef, noteToFireStore, { merge: true });
 
         dispatch( updateNote( note ) );
+
+    }
+}
+
+
+export const startUploadingFiles = ( files = [] ) => {
+    return async( dispatch ) => {
+
+        dispatch( setSaving() );
+
+        // Subir 1 solo archivo
+        await fileUpload( files[0] );
+
+        // console.log(secureUrl);
 
     }
 }
