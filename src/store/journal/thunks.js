@@ -111,7 +111,7 @@ export const startUploadingFiles = ( files = [] ) => {
         // Cuando resuelve
         const photosUrls = await Promise.all( fileUploadPromises );
 
-        setPhotosToActiveNote( photosUrls );
+        dispatch( setPhotosToActiveNote( photosUrls ) );
 
     }
 }
