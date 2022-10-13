@@ -7,12 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
 import { useEffect } from "react";
 import { setActiveNote, startSaveNote } from "../../store/journal";
+import Swal from "sweetalert2";
+import 'sweetalert2/dist/sweetalert2.css';
 
 
 export const NoteView = () => {
 
     const dispatch = useDispatch();
-    const { active: note } = useSelector( state => state.journal );
+    const { active: note, messageSaved, isSaving } = useSelector( state => state.journal );
 
     const {
         body, title, date,
@@ -28,6 +30,14 @@ export const NoteView = () => {
     useEffect(() => {
         dispatch( setActiveNote(formState) )
     }, [ formState ]);
+
+    // Disparar alerta de nota actualizada
+    useEffect(() => {
+      if(messageSaved.length > 0) {
+        Swal.fire('Nota actualizada', messageSaved, 'success');
+      }
+    }, [ messageSaved ])
+    
 
     const onSaveNote = () => {
         dispatch( startSaveNote() );
@@ -49,6 +59,7 @@ export const NoteView = () => {
 
         <Grid item>
             <Button
+                disabled={ isSaving }
                 onClick={ onSaveNote }
                 color='primary'
                 sx={{ padding: 2 }}
