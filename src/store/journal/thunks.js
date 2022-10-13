@@ -1,7 +1,14 @@
 import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { loadNotes } from "../../helpers/loadNotes";
-import { savingNewNote, addNewEmptyNote, setActiveNote, setNotes } from "./";
+import { 
+    savingNewNote,
+    addNewEmptyNote,
+    setActiveNote,
+    setSaving,
+    updateNote,
+    setNotes
+} from "./";
 
 export const startNewNote = () => {
 
@@ -11,6 +18,8 @@ export const startNewNote = () => {
         dispatch( savingNewNote() );
 
         console.log('startNewNote');
+
+        // getState para buscar dato en particular de nuestro store
 
         // uid del usuario
         const { uid } = getState().auth;
@@ -48,6 +57,34 @@ export const startLoadingNotes = () => {
         const notes = await loadNotes( uid );
 
         dispatch( setNotes( notes ) );
+
+    }
+}
+
+
+export const startSaveNote = () => {
+    return async( dispatch, getState ) => {
+
+        dispatch( setSaving() );
+
+        // Obtener id de usuario y nota activa
+        const { uid } = getState().auth;
+        const { active:note } = getState().journal; 
+
+        // remover id de la nota (para que no lo duplique en FB)
+        const noteToFireStore = { ...note }
+        delete noteToFireStore.id;
+
+        // Crear la referencia al documento en FireBase
+        const docRef = doc( FirebaseDB, `${ uid }/journal/notes/${ note.id }` );
+
+        // Guardar nota actualizada
+        // sin merge: sobreescribe un documento o lo crea si no existe
+        // con merge: actualiza los campos del documento o lo crea si no existe
+
+        await setDoc(docRef, noteToFireStore, { merge: true });
+
+        dispatch( updateNote( note ) );
 
     }
 }
