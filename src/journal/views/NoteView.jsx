@@ -1,5 +1,5 @@
 import { Button, Grid, IconButton, TextField, Typography } from "@mui/material";
-import { Notes, SaveOutlined, UploadOutlined } from '@mui/icons-material';
+import { DeleteOutline, Notes, SaveOutlined, UploadOutlined } from '@mui/icons-material';
 
 import { ImageGallery } from "../components";
 import { useForm } from "../../hooks/useForm";
@@ -49,6 +49,11 @@ export const NoteView = () => {
     const onFileInputChange = ({ target }) => {
         if(target.files === 0) return;
         dispatch( startUploadingFiles(target.files))
+    }
+
+
+    const onDelete = () => {
+        dispatch( startDeleatingNote() );
     }
 
 
@@ -121,6 +126,18 @@ export const NoteView = () => {
                 onChange={ onInputChange }
             />
         </Grid>
+
+        <Grid container justifyContent="end">
+            <Button 
+                onClick={ onDelete }
+                sx={{ mt: 2 }}
+                color="error"
+            >
+                <DeleteOutline />
+                Borrar
+            </Button>
+        </Grid>
+
 
         {/* Galería de Imágenes */}
         {

@@ -61,3 +61,8 @@ export const startLogout = () => {
         dispatch( logout({}) );
     }
 }
+
+
+export const startDeleatingNote() => {
+    
+}
