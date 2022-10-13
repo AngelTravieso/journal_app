@@ -8,6 +8,7 @@ import {
     setActiveNote,
     setSaving,
     updateNote,
+    setPhotosToActiveNote,
     setNotes
 } from "./";
 
@@ -97,9 +98,20 @@ export const startUploadingFiles = ( files = [] ) => {
         dispatch( setSaving() );
 
         // Subir 1 solo archivo
-        await fileUpload( files[0] );
+        // await fileUpload( files[0] );
 
-        // console.log(secureUrl);
+        // Subir en secuencia (multiples img)
+        const fileUploadPromises = []; // esto devuelve una promesa
+
+        for (const file of files) {
+            // Crear arreglo de promesas
+            fileUploadPromises.push( fileUpload( file ) )
+        }
+
+        // Cuando resuelve
+        const photosUrls = await Promise.all( fileUploadPromises );
+
+        setPhotosToActiveNote( photosUrls );
 
     }
 }
