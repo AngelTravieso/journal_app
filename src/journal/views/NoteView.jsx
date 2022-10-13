@@ -1,5 +1,5 @@
 import { Button, Grid, IconButton, TextField, Typography } from "@mui/material";
-import { SaveOutlined, UploadOutlined } from '@mui/icons-material';
+import { Notes, SaveOutlined, UploadOutlined } from '@mui/icons-material';
 
 import { ImageGallery } from "../components";
 import { useForm } from "../../hooks/useForm";
@@ -123,7 +123,12 @@ export const NoteView = () => {
         </Grid>
 
         {/* Galería de Imágenes */}
-        <ImageGallery />
+        {
+            !!note.imageUrls
+            ? (<ImageGallery images={ note.imageUrls } />)
+            : ''
+        }
+        
 
     </Grid>
   )
