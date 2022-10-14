@@ -1,5 +1,7 @@
+import { deleteDoc, doc } from "firebase/firestore/lite";
+import { FirebaseDB } from "../../firebase/config";
 import { loginWithEmailPassword, logoutFirebase, registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers";
-import { clearNotesLogout } from "../journal/journalSlice";
+import { clearNotesLogout, deleteNoteById } from "../journal/journalSlice";
 import { checkingCredentials, login, logout } from "./";
 
 export const checkingAuthentication = ( email, password ) => {
@@ -63,6 +65,20 @@ export const startLogout = () => {
 }
 
 
-export const startDeleatingNote() => {
-    
+export const startDeleatingNote = () => {
+    return async( dispatch, getState ) => {
+
+        const { uid } = getState().auth;
+        const { active: note } = getState().journal;
+        
+        // Referencia al documento
+        const docRef = doc(FirebaseDB, `${ uid }/journal/notes/${ note.id }`);
+
+        // Eliminar documento de FB
+        await deleteDoc( docRef );
+
+        // Eliminar de mi arreglo de notas local
+        dispatch( deleteNoteById( note.id ) );
+
+    }
 }

@@ -10,6 +10,7 @@ import { setActiveNote, startSaveNote, startUploadingFiles } from "../../store/j
 import Swal from "sweetalert2";
 import 'sweetalert2/dist/sweetalert2.css';
 import { useRef } from "react";
+import { startDeleatingNote } from "../../store/auth";
 
 
 export const NoteView = () => {
